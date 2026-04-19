@@ -1,6 +1,7 @@
 {
   "name": "cli2mcp",
-  "version": "0.1.3",
+  "version": "0.1.4",
+  "mcpName": "io.github.RonieNeubauer/cli2mcp",
   "keywords": [
     "mcp",
     "mcp-server",

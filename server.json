@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.RonieNeubauer/cli2mcp",
+  "title": "cli2mcp",
+  "description": "Wrap any CLI as a Model Context Protocol (MCP) server for Claude, ChatGPT, Cursor, Gemini and any MCP-compatible client — schema auto-inferred from --help.",
+  "repository": {
+    "url": "https://github.com/RonieNeubauer/cli2mcp",
+    "source": "github"
+  },
+  "version": "0.1.4",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "cli2mcp",
+      "version": "0.1.4",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "valueHint": "command",
+          "description": "The CLI binary to wrap (must be installed and on PATH). Examples: rg, jq, pandoc, sqlite3, yt-dlp.",
+          "isRequired": true
+        }
+      ]
+    }
+  ]
+}
