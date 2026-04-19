@@ -1,5 +1,11 @@
 # cli2mcp
 
+[![npm version](https://img.shields.io/npm/v/cli2mcp?color=crimson&label=npm)](https://www.npmjs.com/package/cli2mcp)
+[![npm downloads](https://img.shields.io/npm/dm/cli2mcp?color=blue&label=downloads)](https://www.npmjs.com/package/cli2mcp)
+[![CI](https://img.shields.io/github/actions/workflow/status/RonieNeubauer/mcp-wrap/ci.yml?branch=main&label=CI)](https://github.com/RonieNeubauer/mcp-wrap/actions)
+[![node](https://img.shields.io/node/v/cli2mcp?color=green)](https://nodejs.org)
+[![license](https://img.shields.io/npm/l/cli2mcp?color=gray)](LICENSE)
+
 > Wrap any CLI binary as an MCP server in one line.
 
 ```sh
