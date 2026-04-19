@@ -1,8 +1,8 @@
-# mcp-wrap — design spec
+# cli2mcp — design spec
 
 - **Status:** Approved 2026-04-18
 - **Tagline:** Wrap any CLI binary as an MCP server in one line.
-- **Distribution:** `npx mcp-wrap <command>` on npm. MIT. English only.
+- **Distribution:** `npx cli2mcp <command>` on npm. MIT. English only.
 
 ## 1. Problem
 
@@ -10,12 +10,12 @@ MCP (Model Context Protocol) is the hottest protocol in the agent ecosystem as o
 
 ## 2. Solution
 
-`mcp-wrap <cli>` starts an MCP stdio server that wraps the target CLI. Input schema is inferred from parsing `<cli> --help`. The CLI becomes one MCP tool. On each tool call, args are constructed from validated params and the child process is spawned.
+`cli2mcp <cli>` starts an MCP stdio server that wraps the target CLI. Input schema is inferred from parsing `<cli> --help`. The CLI becomes one MCP tool. On each tool call, args are constructed from validated params and the child process is spawned.
 
 ## 3. Scope — v0.1
 
 ### In scope
-- `mcp-wrap <command>` CLI entry.
+- `cli2mcp <command>` CLI entry.
 - Auto-detection of flags and positional args from `--help`.
 - Type inference (boolean, string, number, choice).
 - Fallback schema (single `args: string[]` positional) when parsing fails.
@@ -35,7 +35,7 @@ MCP (Model Context Protocol) is the hottest protocol in the agent ecosystem as o
 Single Node process. Three modules, no package layers.
 
 ```
-user$ mcp-wrap ffmpeg
+user$ cli2mcp ffmpeg
          │
          ▼
    parser/spawn.ts      ← runs `ffmpeg --help`, captures raw text
@@ -59,7 +59,7 @@ user$ mcp-wrap ffmpeg
 ## 5. CLI surface
 
 ```
-mcp-wrap <command> [options]
+cli2mcp <command> [options]
 
 Positional:
   <command>           CLI binary to wrap (must be on $PATH)
@@ -71,13 +71,13 @@ Options:
   --cwd <path>        working directory for child (default: $PWD)
   --env <k=v>         additional env vars (repeatable)
   --stderr <mode>     include | drop | error  (default: include)
-  --version           print mcp-wrap version
+  --version           print cli2mcp version
   -h, --help          show this help
 ```
 
 ## 6. Envelope for tool invocation
 
-On `tools/call`, the input matches the synthesized schema. mcp-wrap converts it to argv:
+On `tools/call`, the input matches the synthesized schema. cli2mcp converts it to argv:
 
 - Boolean flags: `--foo` when value is `true`, omitted otherwise.
 - String/number flags: `--foo value`.
@@ -92,7 +92,7 @@ The tool response has `content: [{ type: "text", text: stdout }]`. On non-zero e
 
 | Risk | Mitigation |
 |---|---|
-| npm name `mcp-wrap` taken | Day-0 check. Fallbacks: `mcp-wrap`, `mcpx`, `mcpcli`, `@ronieneubauer/mcp-wrap`. |
+| npm name `cli2mcp` taken | Day-0 check. Fallbacks: `cli2mcp`, `mcpx`, `mcpcli`, `@ronieneubauer/cli2mcp`. |
 | `--help` parsing heuristics miss CLIs with unusual formats | Fallback to permissive schema (`args: string[]`). Document known-good list in README. |
 | Child process leaks on shutdown | SIGTERM then SIGKILL after 2s. Test on process exit and SIGINT. |
 | Anthropic or FastMCP ship equivalent | Window estimated 3–6 months. Prioritize distribution over polish. |
@@ -115,10 +115,10 @@ The tool response has `content: [{ type: "text", text: stdout }]`. On non-zero e
 
 ## 9. Roadmap (post v0.1)
 
-- Subcommand trees (v0.2) — `mcp-wrap git` exposes one tool per subcommand.
+- Subcommand trees (v0.2) — `cli2mcp git` exposes one tool per subcommand.
 - Streamable HTTP transport (v0.2).
-- `mcp-wrap.config.ts` for schema overrides per CLI.
-- Auto-publish: `mcp-wrap publish <cmd>` pushes a dedicated npm package `mcp-wrap-<cmd>`.
+- `cli2mcp.config.ts` for schema overrides per CLI.
+- Auto-publish: `cli2mcp publish <cmd>` pushes a dedicated npm package `cli2mcp-<cmd>`.
 - MCP server marketplace integration (wait and see).
 
 ## 10. Non-goals (never)

@@ -1,22 +1,37 @@
-# CLAUDE.md — mcp-wrap
+# CLAUDE.md — cli2mcp
 
 Project-level guidance for Claude Code sessions in this repo. English only everywhere.
 
+## Project at a glance
+
+- **Public OSS project** under MIT, published to npm as `cli2mcp`, repo on GitHub at `RonieNeubauer/cli2mcp`.
+- **Stdio MCP server** that wraps any CLI binary by parsing its `--help` output. Single package, no workspaces.
+- Anything you commit lands on a public branch — assume the world reads it.
+
 ## Role
 
-Claude is the **sole executor**: plans, writes code, tests, reviews its own diffs. Codex is not in the loop. Use the `superpowers` plugin workflow — `brainstorming` → `writing-plans` → `test-driven-development` → `verification-before-completion` — for any non-trivial change.
+Claude is the **sole executor**: plans, writes code, tests, reviews its own diffs. Use the `superpowers` plugin workflow — `brainstorming` → `writing-plans` → `test-driven-development` → `verification-before-completion` — for any non-trivial change.
 
-`CODEX.md` is retained as historical context only. Ignore its operating rules.
+## Local-only docs (gitignored)
+
+The following live on disk but are NOT committed. Read them at session start for context, edit them locally as you work, but never re-add them to git:
+
+- `CONTEXT.md` — current status, pivot history, kill criteria, market positioning. Read first on cold session.
+- `TASKS.md` — granular task list with checkboxes.
+- `CODEX.md` — historical operating rules from when Codex was in the loop. Ignore as policy.
+- `prompts/` — scratch prompts.
+
+If `CONTEXT.md` or `TASKS.md` is missing locally, ask the user — do not recreate them from inference.
 
 ## Session loop
 
-1. Read `CONTEXT.md` for current status.
+1. Read local `CONTEXT.md` for current status (if present).
 2. `rtk git log --oneline -20` to see prior commits.
-3. Check `TASKS.md` for the next unchecked item.
+3. Check local `TASKS.md` for the next unchecked item.
 4. Before touching code on a new phase, invoke `superpowers:brainstorming` if scope is unclear, or `superpowers:writing-plans` for multi-step work. Skip both only for single-file, single-commit tasks already fully specified in `TASKS.md`.
 5. Implement with `superpowers:test-driven-development` — test first, then code.
 6. Before claiming done, run `superpowers:verification-before-completion`: `pnpm test && pnpm typecheck && pnpm lint` — all green, no exceptions.
-7. Update `TASKS.md` (check boxes, add notes) and `CONTEXT.md` `## Status` section.
+7. Update local `TASKS.md` (check boxes, add notes) and local `CONTEXT.md` `## Status` section.
 8. Commit (conventional commits, one logical change per commit).
 
 ## Red flags to self-police
@@ -32,6 +47,7 @@ Reject these in your own diffs before committing:
 - `--no-verify`, `--force`, `--amend`.
 - Comments explaining WHAT instead of WHY.
 - Any `any`, `@ts-ignore`, `@ts-nocheck`.
+- Re-tracking gitignored docs (`CONTEXT.md`, `TASKS.md`, `CODEX.md`, `prompts/`, `.claude/`).
 
 ## Code shape to preserve
 
@@ -73,6 +89,7 @@ Consult `SPEC.md`. If the answer isn't there, amend `SPEC.md` (short, justified)
 ## Do NOT do
 
 - Do NOT run `npm publish`, `git push`, `git tag` unless user explicitly asks.
-- Do NOT introduce files outside `src/`, `test/`, `docs/`, or the root-level planning docs.
-- Do NOT re-litigate scope after user confirmed it (see `CONTEXT.md` feedback section).
+- Do NOT introduce files outside `src/`, `test/`, `docs/`, or the root-level project files (README, SPEC, LICENSE, CLAUDE, configs).
+- Do NOT commit `CONTEXT.md`, `TASKS.md`, `CODEX.md`, or anything under `.claude/` or `prompts/` — they are gitignored on purpose.
+- Do NOT re-litigate scope after user confirmed it.
 - Do NOT skip the TDD/verification loop to "save time" — the discipline is the point.
