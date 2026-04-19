@@ -189,7 +189,9 @@
 ### Task 5.2 — Pre-publish checks
 - [x] `pnpm build && pnpm test && pnpm typecheck && pnpm lint` all green (77 tests, 2026-04-18).
 - [x] `npm pack --dry-run` — 14.1 kB, 20 files, only `dist/` + LICENSE + README + package.json shipped.
-- [ ] **Bump `package.json` version to `0.1.0`** (currently `0.0.0`; needed before publish + 5.3 tag). HANDOFF or approve.
+- [x] Bump `package.json` version `0.0.0` → `0.1.0`; added `keywords`, `repository`, `bugs`, `homepage`.
+- [x] Add GitHub Actions CI (`ubuntu/macos/windows` × Node 22 + 24, runs build/test/typecheck/lint).
+- [x] Add project-local `.mcp.json` (wraps `rg` + `jq` via local build) for live demo.
 - [ ] HANDOFF: user runs `npm publish` (requires 2FA + npm login).
 
 ### Task 5.3 — Tag + social (after user publishes)
