@@ -1,6 +1,24 @@
 {
   "name": "mcp-wrap",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "cli",
+    "wrapper",
+    "agent",
+    "llm",
+    "claude",
+    "stdio"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RonieNeubauer/mcp-wrap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RonieNeubauer/mcp-wrap/issues"
+  },
+  "homepage": "https://github.com/RonieNeubauer/mcp-wrap#readme",
   "description": "Wrap any CLI binary as an MCP server in one line",
   "type": "module",
   "bin": {
