@@ -1,3 +1,5 @@
+import { inferType } from "./types.js";
+
 export interface FlagSpec {
   long: string;
   short?: string;
@@ -84,15 +86,18 @@ function extractFlags(lines: string[]): FlagSpec[] {
     let description = sameLineDescription;
     if (!description) description = takeContinuation(lines, i, indent);
 
-    const hasValue = valueSpec.length > 0;
     const repeatable = REPEATABLE_RE.test(description) || /\.{3,}/.test(valueSpec);
+
+    const hintMatch = /<[^>]+>/.exec(valueSpec);
+    const inferred = inferType(hintMatch ? hintMatch[0] : valueSpec || null);
 
     const flag: FlagSpec = {
       long,
-      type: hasValue ? "string" : "boolean",
+      type: inferred.type,
       description: description.trim(),
       repeatable,
     };
+    if (inferred.choices) flag.choices = inferred.choices;
     if (short) flag.short = short;
 
     flags.push(flag);

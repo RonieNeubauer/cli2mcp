@@ -9,7 +9,8 @@
     "declaration": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["node"]
   },
   "include": ["src"]
 }

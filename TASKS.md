@@ -4,8 +4,8 @@
 
 ## Current state
 
-- **Phase:** 2 (in progress — 2.1, 2.2 done)
-- **Last commit:** `feat(parser): CliShape extraction`
+- **Phase:** 2 (complete)
+- **Last commit:** `feat(parser): type inference`
 - **Blocked on:** nothing
 
 ---
@@ -132,15 +132,15 @@
 - [x] Commit: `feat(parser): CliShape extraction`
 
 ### Task 2.3 — Type inference
-- [ ] `src/parser/types.ts`: `inferType(valueHint: string | null): FlagSpec["type"]`.
+- [x] `src/parser/types.ts`: `inferType(valueHint: string | null): FlagSpec["type"]`.
   - `null` or empty → `"boolean"`.
   - `<path>|<file>|<dir>|<string>|<name>|<s>` → `"string"`.
   - `<n>|<num>|<ms>|<seconds>|<count>|<size>` → `"number"`.
   - `<a|b|c>` → `"choice"` with `choices = [a, b, c]`.
   - Unknown → `"string"`.
-- [ ] Wire into `extractShape`.
-- [ ] `test/parser/types.test.ts`: table-driven.
-- [ ] Commit: `feat(parser): type inference`
+- [x] Wire into `extractShape`.
+- [x] `test/parser/types.test.ts`: table-driven.
+- [x] Commit: `feat(parser): type inference`
 
 ---
 
