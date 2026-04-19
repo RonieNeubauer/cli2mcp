@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e1e2e"/>
+      <stop offset="1" stop-color="#181825"/>
+    </linearGradient>
+    <style>
+      .prompt  { fill: #94e2d5; }
+      .cmd     { fill: #f5e0dc; }
+      .flag    { fill: #f9e2af; }
+      .arg     { fill: #cba6f7; }
+      .ok      { fill: #a6e3a1; }
+      .dim     { fill: #6c7086; }
+      .key     { fill: #89b4fa; }
+      .str     { fill: #f5c2e7; }
+      .num     { fill: #fab387; }
+      .label   { fill: #cdd6f4; }
+      .arrow   { fill: #f38ba8; }
+      @keyframes blink { 50% { opacity: 0; } }
+      .caret { animation: blink 1s steps(1) infinite; fill: #cdd6f4; }
+    </style>
+  </defs>
+
+  <!-- window chrome -->
+  <rect x="0" y="0" width="820" height="460" rx="10" fill="url(#bg)"/>
+  <rect x="0" y="0" width="820" height="32" rx="10" fill="#11111b"/>
+  <rect x="0" y="22" width="820" height="10" fill="#11111b"/>
+  <circle cx="18" cy="16" r="6" fill="#f38ba8"/>
+  <circle cx="38" cy="16" r="6" fill="#f9e2af"/>
+  <circle cx="58" cy="16" r="6" fill="#a6e3a1"/>
+  <text x="410" y="20" text-anchor="middle" class="dim">cli2mcp — demo</text>
+
+  <!-- line 1: install / run -->
+  <text x="20" y="68">
+    <tspan class="prompt">$</tspan>
+    <tspan class="cmd"> npx</tspan>
+    <tspan class="arg"> cli2mcp</tspan>
+    <tspan class="cmd"> jq</tspan>
+  </text>
+
+  <!-- line 2-3: server output -->
+  <text x="20" y="92" class="dim">cli2mcp: spawned `jq --help`, parsed 30 flags + 1 positional</text>
+  <text x="20" y="112" class="dim">cli2mcp: stdio server ready — exposing tool `jq`</text>
+
+  <!-- separator -->
+  <line x1="20" y1="130" x2="800" y2="130" stroke="#313244" stroke-width="1"/>
+  <text x="20" y="150" class="label">// MCP client calls tools/list</text>
+
+  <!-- JSON tools/list response -->
+  <text x="20" y="174">
+    <tspan class="dim">{</tspan>
+    <tspan class="key"> "tools"</tspan><tspan class="dim">: [{</tspan>
+  </text>
+  <text x="40" y="194">
+    <tspan class="key">"name"</tspan><tspan class="dim">: </tspan><tspan class="str">"jq"</tspan><tspan class="dim">,</tspan>
+  </text>
+  <text x="40" y="214">
+    <tspan class="key">"description"</tspan><tspan class="dim">: </tspan><tspan class="str">"commandline JSON processor [version 1.8.1]"</tspan><tspan class="dim">,</tspan>
+  </text>
+  <text x="40" y="234">
+    <tspan class="key">"inputSchema"</tspan><tspan class="dim">: { </tspan><tspan class="key">"raw-output"</tspan><tspan class="dim">: </tspan><tspan class="str">"boolean"</tspan><tspan class="dim">, </tspan><tspan class="key">"slurp"</tspan><tspan class="dim">: </tspan><tspan class="str">"boolean"</tspan><tspan class="dim">,</tspan>
+  </text>
+  <text x="40" y="254">
+    <tspan class="dim">              </tspan><tspan class="key">"compact-output"</tspan><tspan class="dim">: </tspan><tspan class="str">"boolean"</tspan><tspan class="dim">, </tspan><tspan class="key">"args"</tspan><tspan class="dim">: </tspan><tspan class="str">"array"</tspan><tspan class="dim">, ... }</tspan>
+  </text>
+  <text x="20" y="274" class="dim">}]}</text>
+
+  <!-- separator -->
+  <line x1="20" y1="294" x2="800" y2="294" stroke="#313244" stroke-width="1"/>
+  <text x="20" y="314" class="label">// AI calls jq with stdin piping</text>
+
+  <!-- call payload -->
+  <text x="20" y="338">
+    <tspan class="arrow">→</tspan>
+    <tspan class="dim"> { </tspan>
+    <tspan class="key">"args"</tspan><tspan class="dim">: [</tspan><tspan class="str">".users[].name"</tspan><tspan class="dim">], </tspan>
+    <tspan class="key">"stdin"</tspan><tspan class="dim">: </tspan><tspan class="str">'{"users":[{"name":"ada"},{"name":"lin"}]}'</tspan><tspan class="dim"> }</tspan>
+  </text>
+
+  <!-- response -->
+  <text x="20" y="370">
+    <tspan class="ok">←</tspan>
+    <tspan class="dim"> { </tspan>
+    <tspan class="key">"content"</tspan><tspan class="dim">: [{ </tspan><tspan class="key">"type"</tspan><tspan class="dim">: </tspan><tspan class="str">"text"</tspan><tspan class="dim">, </tspan><tspan class="key">"text"</tspan><tspan class="dim">: </tspan><tspan class="str">"\"ada\"\n\"lin\""</tspan><tspan class="dim"> }] }</tspan>
+  </text>
+
+  <!-- prompt with caret -->
+  <text x="20" y="412">
+    <tspan class="prompt">$</tspan>
+    <tspan class="cmd"> </tspan>
+    <tspan class="caret">▍</tspan>
+  </text>
+
+  <!-- footer -->
+  <text x="800" y="438" text-anchor="end" class="dim">cli2mcp · npm i -g cli2mcp</text>
+</svg>

@@ -14,6 +14,8 @@ Expose any command-line binary as a [Model Context Protocol](https://modelcontex
 npx cli2mcp <command>
 ```
 
+![cli2mcp demo](https://raw.githubusercontent.com/RonieNeubauer/cli2mcp/main/docs/demo.svg)
+
 ---
 
 ## Why
