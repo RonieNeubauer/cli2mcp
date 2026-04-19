@@ -4,7 +4,7 @@
 
 ## Status
 
-- **0% built.** Spec + task list only as of 2026-04-18.
+- **In progress.** Phase 0 + 1 complete; Phase 2 started (2.1 captureHelp done) as of 2026-04-18.
 - **Owner:** Ronie Neubauer (solo, 22+ yr senior eng).
 - **Sister project:** `skillforge/` at `D:\Projetos\skillforge` — built in parallel, independent codebase.
 - **Parent working dir (legacy):** `D:\Projetos\prompt-attack` — abandoned MCP Inspect project; do not use.

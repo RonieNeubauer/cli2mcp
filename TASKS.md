@@ -4,8 +4,8 @@
 
 ## Current state
 
-- **Phase:** 0 (not started)
-- **Last commit:** none
+- **Phase:** 2 (in progress — 2.1 done)
+- **Last commit:** `feat(parser): capture --help output`
 - **Blocked on:** nothing
 
 ---
@@ -93,12 +93,12 @@
 ## Phase 2 — Help parser (~1 day)
 
 ### Task 2.1 — Spawn target with --help
-- [ ] `src/parser/spawn.ts`: `export async function captureHelp(cmd: string): Promise<string>`.
-- [ ] Uses `execa(cmd, ["--help"], { timeout: 5000, reject: false })`.
-- [ ] Returns `stdout + "\n" + stderr` (some CLIs like `jq` emit help to stderr).
-- [ ] On non-zero exit AND empty stdout+stderr, throw `NoHelpError` with cmd name.
-- [ ] `test/parser/spawn.test.ts`: mock execa; verify merged output; verify error thrown on empty.
-- [ ] Commit: `feat(parser): capture --help output`
+- [x] `src/parser/spawn.ts`: `export async function captureHelp(cmd: string): Promise<string>`.
+- [x] Uses `execa(cmd, ["--help"], { timeout: 5000, reject: false })`.
+- [x] Returns `stdout + "\n" + stderr` (some CLIs like `jq` emit help to stderr).
+- [x] On non-zero exit AND empty stdout+stderr, throw `NoHelpError` with cmd name.
+- [x] `test/parser/spawn.test.ts`: mock execa; verify merged output; verify error thrown on empty.
+- [x] Commit: `feat(parser): capture --help output`
 
 ### Task 2.2 — Normalize help to CliShape
 - [ ] `src/parser/shape.ts`: define types:
