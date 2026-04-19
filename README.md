@@ -3,7 +3,7 @@
 > Wrap any CLI binary as an MCP server in one line.
 
 ```sh
-npx mcp-wrap jq
+npx @ronieneubauer/mcp-wrap jq
 ```
 
 Your `jq` is now an MCP tool any client (Claude Desktop, Cursor, Cline, Gemini CLI) can call. The input schema is auto-inferred from `jq --help` — no hand-written tool definitions, no SDK boilerplate.
@@ -13,9 +13,9 @@ Your `jq` is now an MCP tool any client (Claude Desktop, Cursor, Cline, Gemini C
 ## Install
 
 ```sh
-npm install -g mcp-wrap
+npm install -g @ronieneubauer/mcp-wrap
 # or run without installing
-npx mcp-wrap <command>
+npx @ronieneubauer/mcp-wrap <command>
 ```
 
 Requires Node.js 22+.
@@ -30,7 +30,7 @@ Requires Node.js 22+.
       "mcpServers": {
         "jq": {
           "command": "npx",
-          "args": ["-y", "mcp-wrap", "jq"]
+          "args": ["-y", "@ronieneubauer/mcp-wrap", "jq"]
         }
       }
     }
