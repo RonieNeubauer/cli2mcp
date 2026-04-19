@@ -4,9 +4,9 @@
 
 ## Current state
 
-- **Phase:** 4 (tasks 4.1 + 4.2 complete — Phase 4 done)
-- **Last commit:** `feat: end-to-end mcp-wrap wiring`
-- **Blocked on:** nothing
+- **Phase:** 5 (task 5.1 complete — README finalized)
+- **Last commit:** `docs: finalize README`
+- **Blocked on:** user records `docs/demo.gif`; 5.2 ready to run, 5.3 blocked on `npm publish` (user, 2FA)
 
 ---
 
@@ -181,10 +181,10 @@
 ## Phase 5 — Launch (~1 day)
 
 ### Task 5.1 — README finalize
-- [ ] Update `README.md` with a working snippet and one realistic `jq` demo call.
-- [ ] Add `docs/demo.gif` placeholder reference (user records the GIF manually).
+- [x] Update `README.md` with a working snippet and one realistic `jq` demo call.
+- [x] Add `docs/demo.gif` placeholder reference (user records the GIF manually).
 - [ ] HANDOFF: user records the demo gif.
-- [ ] Commit: `docs: finalize README`
+- [x] Commit: `docs: finalize README`
 
 ### Task 5.2 — Pre-publish checks
 - [ ] `pnpm build && pnpm test && pnpm typecheck && pnpm lint` all green.

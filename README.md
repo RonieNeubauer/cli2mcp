@@ -6,7 +6,9 @@
 npx mcp-wrap jq
 ```
 
-Your `jq` is now a tool any MCP client (Claude, Cursor, Gemini CLI, Cline) can call, with the input schema auto-inferred from `jq --help`.
+Your `jq` is now an MCP tool any client (Claude Desktop, Cursor, Cline, Gemini CLI) can call. The input schema is auto-inferred from `jq --help` — no hand-written tool definitions, no SDK boilerplate.
+
+![demo](docs/demo.gif)
 
 ## Install
 
@@ -16,41 +18,84 @@ npm install -g mcp-wrap
 npx mcp-wrap <command>
 ```
 
-## Examples
+Requires Node.js 22+.
+
+## Quickstart — wrap `jq` for Claude Desktop
+
+1. Install `jq` (`brew install jq`, `apt install jq`, `choco install jq`).
+2. Add to `claude_desktop_config.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "jq": {
+          "command": "npx",
+          "args": ["-y", "mcp-wrap", "jq"]
+        }
+      }
+    }
+    ```
+
+3. Restart Claude Desktop. Claude can now call `jq` directly:
+
+    > **You:** Using the `jq` tool, extract every `.name` field from `{"users":[{"name":"ada"},{"name":"lin"}]}`.
+    >
+    > **Claude** *(calls `jq` with `{"args": [".users[].name"], "stdin": "{\"users\":[{\"name\":\"ada\"},{\"name\":\"lin\"}]}"}`)*
+    > `"ada"` / `"lin"`
+
+The tool's `inputSchema` is synthesized from `jq --help` — flags like `--raw-output`, `--compact-output`, `--slurp` show up as typed properties; positional filter and files become the `args` array.
+
+## More examples
 
 ```sh
-# Serve ripgrep as an MCP tool
+# Ripgrep as an MCP search tool
 mcp-wrap rg
 
-# Wrap yt-dlp for an agent to use
+# yt-dlp with a custom name and a longer timeout
 mcp-wrap yt-dlp --name video-downloader --timeout 120000
 
-# Serve ffmpeg with a custom description
+# ffmpeg with a hand-written tool description
 mcp-wrap ffmpeg --description "Run ffmpeg operations on media files"
+
+# Inject env vars into the child
+mcp-wrap curl --env HTTP_PROXY=http://localhost:8080
+```
+
+## Options
+
+```
+mcp-wrap <command> [options]
+
+  --name <s>          tool name exposed via MCP (default: <command>)
+  --description <s>   tool description (default: first line of --help)
+  --timeout <ms>      per-invocation timeout (default: 60000)
+  --cwd <path>        working directory for the child (default: $PWD)
+  --env <k=v>         extra env vars (repeatable)
+  --stderr <mode>     include | drop | error (default: include)
+  -h, --help          show help
 ```
 
 ## How it works
 
-1. Spawns the target CLI with `--help` to discover flags and positional args.
-2. Heuristically parses the help output into a normalized shape.
-3. Synthesizes a JSON Schema describing the tool input.
+1. Spawns the target CLI with `--help` and captures stdout + stderr.
+2. Heuristically parses the help text into a normalized `CliShape` (flags, positionals, description).
+3. Synthesizes a JSON Schema for the MCP tool's input.
 4. Starts an MCP stdio server exposing one tool named after the CLI.
-5. On each `tools/call`, builds argv from the validated params, spawns the child, and returns stdout/stderr/exitCode.
+5. On each `tools/call`, builds argv from the validated params, spawns the child via `execa`, and returns stdout (and stderr, unless `--stderr drop`). Non-zero exits are surfaced as `isError: true`.
 
 ## Known-good CLIs for v0.1
 
-- `jq`, `ripgrep`, `curl`, `yt-dlp`, `imagemagick`, `ollama`
-- Any POSIX-style CLI with parseable `--help`.
+`jq`, `ripgrep`, `curl`, `yt-dlp`, `imagemagick`, `ollama` — plus any POSIX-style CLI with a parseable `--help`.
 
 ## Out of scope (v0.1)
 
 - Streamable HTTP MCP transport (stdio only).
-- Subcommand trees (so `git`, `docker`, `kubectl` are best-effort).
+- Subcommand trees (`git`, `docker`, `kubectl` are best-effort — the top-level `--help` is what's parsed).
 - Interactive CLIs that read stdin after startup.
 
 ## Status
 
-v0.1 — active development. MIT. English only.
+v0.1 — active development. Cross-platform (Linux, macOS, Windows). MIT.
 
 ## License
 
