@@ -4,8 +4,8 @@
 
 ## Current state
 
-- **Phase:** 3 (task 3.1 complete)
-- **Last commit:** `feat(schema): inputSchema synthesis`
+- **Phase:** 4 (task 4.1 complete)
+- **Last commit:** `feat(server): stdio MCP wrapping a child CLI`
 - **Blocked on:** nothing
 
 ---
@@ -159,14 +159,15 @@
 ## Phase 4 — MCP server (~1 day)
 
 ### Task 4.1 — MCP stdio server
-- [ ] `src/server.ts`: `export async function startServer(cmd: string, opts: Options): Promise<void>`.
-- [ ] Uses `@modelcontextprotocol/sdk/server/index.js` `Server` + `StdioServerTransport`.
-- [ ] On start: run parser → get shape → synthesize schema → register one tool.
-- [ ] Tool handler: validate input → build argv → `execa(cmd, argv, { timeout: opts.timeout, cwd: opts.cwd, env: { ...process.env, ...opts.env } })`.
-- [ ] Return `{ content: [{ type: "text", text: result.stdout }] }`.
-- [ ] On non-zero exit: throw MCP error with stderr (unless `opts.stderr === "drop"`).
-- [ ] `test/server.test.ts`: use an in-memory transport pair; spawn a tiny echo CLI fixture; assert handshake + tools/list + tools/call round-trip.
-- [ ] Commit: `feat(server): stdio MCP wrapping a child CLI`
+- [x] `src/server.ts`: `createMcpServer({ cmd, shape, options, preArgs? }) → Server` and `startServer(options) → Server`.
+- [x] Uses `@modelcontextprotocol/sdk/server/index.js` `Server` + `StdioServerTransport`; `ListToolsRequestSchema` / `CallToolRequestSchema` handlers accept JSON Schema directly (avoids forcing Zod).
+- [x] On start: `captureHelp` → `extractShape` → `toInputSchema` → one registered tool.
+- [x] Tool handler: `buildArgv(shape, input)` (in `src/argv.ts`) → `execa(cmd, argv, { timeout, cwd, env: {...process.env, ...parsedEnv}, reject: false })`.
+- [x] Return `{ content: [{ type: "text", text: stdout[+stderr when --stderr include] }] }`.
+- [x] Non-zero exit → `{ isError: true, content: [{ type: "text", text }] }` where `text` contains stderr unless `--stderr drop`.
+- [x] `test/server.test.ts`: in-memory transport pair + `node -e <echo script>` fixture covers tools/list, tools/call success (prefix/args), boolean flag mapping, non-zero exit surfacing stderr, and `stderr=drop` suppression.
+- [x] `test/argv.test.ts`: pure-function coverage of boolean/string/number/choice/repeatable/positional argv shapes.
+- [x] Commit: `feat(server): stdio MCP wrapping a child CLI`
 
 ### Task 4.2 — Wire index
 - [ ] `src/index.ts`: `parseArgs → startServer(opts.command, opts)`.

@@ -4,7 +4,7 @@
 
 ## Status
 
-- **In progress.** Phases 0–2 complete; Phase 3 started — task 3.1 (toInputSchema) done as of 2026-04-18.
+- **In progress.** Phases 0–3 complete; Phase 4 started — task 4.1 (MCP stdio server) done as of 2026-04-18. 73 tests green, typecheck + lint clean.
 - **Owner:** Ronie Neubauer (solo, 22+ yr senior eng).
 - **Sister project:** `skillforge/` at `D:\Projetos\skillforge` — built in parallel, independent codebase.
 - **Parent working dir (legacy):** `D:\Projetos\prompt-attack` — abandoned MCP Inspect project; do not use.
