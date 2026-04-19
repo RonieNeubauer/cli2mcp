@@ -83,6 +83,7 @@ On `tools/call`, the input matches the synthesized schema. mcp-wrap converts it 
 - String/number flags: `--foo value`.
 - Repeated flags: array values become multiple `--foo v1 --foo v2`.
 - Positionals: concatenated in order.
+- `stdin` (reserved property, always exposed as optional string): piped to the child via standard input. Covers the common one-shot pipe use case (`echo '{...}' | jq ...`). Interactive stdin (multiple reads after startup) is still out of scope.
 - Unknown extra keys: rejected with JSON-RPC error.
 
 The tool response has `content: [{ type: "text", text: stdout }]`. On non-zero exit, MCP error with `stderr` in message (unless `--stderr drop`).
