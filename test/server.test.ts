@@ -3,7 +3,7 @@ import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { afterEach, describe, expect, test } from "vitest";
 import type { Options } from "../src/cli.js";
 import type { CliShape } from "../src/parser/shape.js";
-import { createMcpServer } from "../src/server.js";
+import { createMcpServer, killActiveChildren } from "../src/server.js";
 
 const nodeEcho: CliShape = {
   description: "echo tool",
@@ -42,11 +42,11 @@ const baseOptions: Options = {
   stderr: "include",
 };
 
-async function connect(shape: CliShape, opts: Options = baseOptions) {
+async function connect(shape: CliShape, opts: Options = baseOptions, script: string = ECHO_SCRIPT) {
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
   const server = await createMcpServer({
     cmd: "node",
-    preArgs: ["-e", ECHO_SCRIPT, "--"],
+    preArgs: ["-e", script, "--"],
     shape,
     options: opts,
   });
@@ -54,6 +54,12 @@ async function connect(shape: CliShape, opts: Options = baseOptions) {
   await Promise.all([server.connect(serverTransport), client.connect(clientTransport)]);
   return { server, client };
 }
+
+// A script that waits indefinitely — used to test killActiveChildren.
+const SLEEP_SCRIPT = `
+process.stdout.write("started");
+setInterval(() => {}, 1000);
+`;
 
 describe("createMcpServer", () => {
   const cleanup: Array<() => Promise<void>> = [];
@@ -124,6 +130,26 @@ describe("createMcpServer", () => {
     expect(result.isError).toBe(true);
     const text = (result.content as Array<{ type: string; text: string }>)[0]?.text ?? "";
     expect(text).toContain("boom");
+  });
+
+  test("killActiveChildren terminates an in-flight child and the call surfaces an error", async () => {
+    const shape: CliShape = {
+      description: "",
+      flags: [],
+      positionals: [{ name: "args", description: "", variadic: true }],
+    };
+    const { server, client } = await connect(shape, baseOptions, SLEEP_SCRIPT);
+    cleanup.push(
+      () => client.close(),
+      () => server.close(),
+    );
+
+    const callPromise = client.callTool({ name: "echo", arguments: {} });
+    await new Promise((resolve) => setTimeout(resolve, 150));
+    await killActiveChildren();
+
+    const result = await callPromise;
+    expect(result.isError).toBe(true);
   });
 
   test("stderr=drop suppresses stderr content on non-zero exit", async () => {

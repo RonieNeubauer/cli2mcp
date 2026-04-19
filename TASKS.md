@@ -4,8 +4,8 @@
 
 ## Current state
 
-- **Phase:** 4 (task 4.1 complete)
-- **Last commit:** `feat(server): stdio MCP wrapping a child CLI`
+- **Phase:** 4 (tasks 4.1 + 4.2 complete — Phase 4 done)
+- **Last commit:** `feat: end-to-end mcp-wrap wiring`
 - **Blocked on:** nothing
 
 ---
@@ -170,10 +170,11 @@
 - [x] Commit: `feat(server): stdio MCP wrapping a child CLI`
 
 ### Task 4.2 — Wire index
-- [ ] `src/index.ts`: `parseArgs → startServer(opts.command, opts)`.
-- [ ] On SIGINT/SIGTERM, graceful close: kill child if running, then exit 0.
-- [ ] Integration test: spawn `mcp-wrap jq` as child process in test; send MCP `initialize` + `tools/list` + `tools/call {filter: "."}` with a known input; assert output.
-- [ ] Commit: `feat: end-to-end mcp-wrap wiring`
+- [x] `src/index.ts`: `parseArgs(process.argv)` → `startServer(options)`; errors in main() go to stderr + exit 1.
+- [x] On SIGINT/SIGTERM: `killActiveChildren()` (exported from `src/server.ts`, SIGTERMs tracked execa subprocesses) → `server.close()` → `process.exit(0)`. Guarded against re-entry.
+- [x] Integration test: `beforeAll` builds dist via `pnpm build`, then `StdioClientTransport` spawns `node dist/index.js node --name node` to wrap Node itself. Covers handshake (server.name === `mcp-wrap`), tools/list (single tool `node`), and tools/call `{args: ["--version"]}` matching `v\d+\.\d+\.\d+`.
+- [x] Deviation: task originally said wrap `jq`. Substituted `node` to keep the test cross-platform (jq is not guaranteed on dev/CI machines).
+- [x] Commit: `feat: end-to-end mcp-wrap wiring`
 
 ---
 

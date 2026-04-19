@@ -4,7 +4,7 @@
 
 ## Status
 
-- **In progress.** Phases 0–3 complete; Phase 4 started — task 4.1 (MCP stdio server) done as of 2026-04-18. 73 tests green, typecheck + lint clean.
+- **In progress.** Phases 0–4 complete as of 2026-04-18 — end-to-end wiring lands; `mcp-wrap <cmd>` boots an MCP stdio server, wraps the CLI, handles SIGINT/SIGTERM cleanly. 77 tests green (incl. an integration test that builds dist + spawns it), typecheck + lint clean. Next: Phase 5 (README finalize + pre-publish).
 - **Owner:** Ronie Neubauer (solo, 22+ yr senior eng).
 - **Sister project:** `skillforge/` at `D:\Projetos\skillforge` — built in parallel, independent codebase.
 - **Parent working dir (legacy):** `D:\Projetos\prompt-attack` — abandoned MCP Inspect project; do not use.

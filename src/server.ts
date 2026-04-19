@@ -19,6 +19,14 @@ export interface CreateServerParams {
 const PKG_NAME = "mcp-wrap";
 const PKG_VERSION = "0.0.0";
 
+const activeChildren = new Set<ResultPromise>();
+
+export async function killActiveChildren(): Promise<void> {
+  const children = [...activeChildren];
+  for (const child of children) child.kill("SIGTERM");
+  await Promise.allSettled(children.map((c) => c.catch(() => undefined)));
+}
+
 export async function createMcpServer(params: CreateServerParams): Promise<Server> {
   const { cmd, shape, options, preArgs = [] } = params;
 
@@ -101,12 +109,17 @@ async function runChild(
     stripFinalNewline: false,
   });
 
-  const result = await child;
-  return {
-    stdout: typeof result.stdout === "string" ? result.stdout : "",
-    stderr: typeof result.stderr === "string" ? result.stderr : "",
-    exitCode: typeof result.exitCode === "number" ? result.exitCode : 1,
-  };
+  activeChildren.add(child);
+  try {
+    const result = await child;
+    return {
+      stdout: typeof result.stdout === "string" ? result.stdout : "",
+      stderr: typeof result.stderr === "string" ? result.stderr : "",
+      exitCode: typeof result.exitCode === "number" ? result.exitCode : 1,
+    };
+  } finally {
+    activeChildren.delete(child);
+  }
 }
 
 function errorText(result: ChildResult, mode: Options["stderr"]): string {
