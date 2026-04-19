@@ -4,9 +4,9 @@
 
 ## Current state
 
-- **Phase:** 5 (task 5.1 complete — README finalized)
+- **Phase:** 5 (tasks 5.1 + 5.2 checks complete)
 - **Last commit:** `docs: finalize README`
-- **Blocked on:** user records `docs/demo.gif`; 5.2 ready to run, 5.3 blocked on `npm publish` (user, 2FA)
+- **Blocked on:** (a) version bump 0.0.0 → 0.1.0; (b) user records `docs/demo.gif`; (c) `npm publish` (user, 2FA); (d) 5.3 tag after publish
 
 ---
 
@@ -187,8 +187,9 @@
 - [x] Commit: `docs: finalize README`
 
 ### Task 5.2 — Pre-publish checks
-- [ ] `pnpm build && pnpm test && pnpm typecheck && pnpm lint` all green.
-- [ ] `npm pack --dry-run` — verify `dist/` is the only thing shipped, package size < 500KB.
+- [x] `pnpm build && pnpm test && pnpm typecheck && pnpm lint` all green (77 tests, 2026-04-18).
+- [x] `npm pack --dry-run` — 14.1 kB, 20 files, only `dist/` + LICENSE + README + package.json shipped.
+- [ ] **Bump `package.json` version to `0.1.0`** (currently `0.0.0`; needed before publish + 5.3 tag). HANDOFF or approve.
 - [ ] HANDOFF: user runs `npm publish` (requires 2FA + npm login).
 
 ### Task 5.3 — Tag + social (after user publishes)
