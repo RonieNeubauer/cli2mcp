@@ -4,8 +4,8 @@
 
 ## Current state
 
-- **Phase:** 2 (in progress — 2.1 done)
-- **Last commit:** `feat(parser): capture --help output`
+- **Phase:** 2 (in progress — 2.1, 2.2 done)
+- **Last commit:** `feat(parser): CliShape extraction`
 - **Blocked on:** nothing
 
 ---
@@ -101,7 +101,7 @@
 - [x] Commit: `feat(parser): capture --help output`
 
 ### Task 2.2 — Normalize help to CliShape
-- [ ] `src/parser/shape.ts`: define types:
+- [x] `src/parser/shape.ts`: define types:
   ```ts
   export interface CliShape {
     description: string;
@@ -122,14 +122,14 @@
     variadic: boolean;
   }
   ```
-- [ ] `extractShape(helpText: string): CliShape` — heuristic:
+- [x] `extractShape(helpText: string): CliShape` — heuristic:
   - First non-empty, non-usage line → `description`.
   - Lines matching `/^\s*(-\w,\s+)?--[\w-]+(\s+<[^>]+>)?\s+.+/` → flags.
   - Detect `--long <value>` vs `--long` (boolean).
   - Positional extraction from `Usage:` line best-effort.
-- [ ] Always return a valid shape. On heavy failure, return shape with one positional `args` (variadic).
-- [ ] `test/fixtures/help/{jq,rg,curl}.txt` + `test/parser/shape.test.ts` covers all three.
-- [ ] Commit: `feat(parser): CliShape extraction`
+- [x] Always return a valid shape. On heavy failure, return shape with one positional `args` (variadic).
+- [x] `test/fixtures/help/{jq,rg,curl}.txt` + `test/parser/shape.test.ts` covers all three.
+- [x] Commit: `feat(parser): CliShape extraction`
 
 ### Task 2.3 — Type inference
 - [ ] `src/parser/types.ts`: `inferType(valueHint: string | null): FlagSpec["type"]`.
@@ -197,9 +197,9 @@
 
 ## Fixture checklist (bundled in test/fixtures/help/)
 
-- [ ] `jq.txt` — `jq --help` output
-- [ ] `rg.txt` — `rg --help` output
-- [ ] `curl.txt` — `curl --help` output (full)
+- [x] `jq.txt` — `jq --help` output
+- [x] `rg.txt` — `rg --help` output
+- [x] `curl.txt` — `curl --help` output (full)
 - [ ] `yt-dlp.txt` — `yt-dlp --help` output
 
 Codex: capture these by running the real CLIs on your machine and checking in verbatim. If a CLI is not installed, HANDOFF and ask.
