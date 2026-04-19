@@ -4,8 +4,8 @@
 
 ## Current state
 
-- **Phase:** 2 (complete)
-- **Last commit:** `feat(parser): type inference`
+- **Phase:** 3 (task 3.1 complete)
+- **Last commit:** `feat(schema): inputSchema synthesis`
 - **Blocked on:** nothing
 
 ---
@@ -147,12 +147,12 @@
 ## Phase 3 — Schema synthesis (~2h)
 
 ### Task 3.1 — CliShape → JSON Schema
-- [ ] `src/schema.ts`: `export function toInputSchema(shape: CliShape): JsonSchema`.
-- [ ] Each `FlagSpec` → property on `properties`. Type mapped, `description` preserved, `repeatable → type: array`.
-- [ ] Positionals → property `args` of `type: array, items: string`.
-- [ ] `additionalProperties: false`.
-- [ ] `test/schema.test.ts`: 3 fixture shapes → valid JSON Schemas (validate with `ajv` in test only — add ajv to devDeps).
-- [ ] Commit: `feat(schema): inputSchema synthesis`
+- [x] `src/schema.ts`: `export function toInputSchema(shape: CliShape): JsonSchema`.
+- [x] Each `FlagSpec` → property on `properties`. Type mapped, `description` preserved, `repeatable → type: array`.
+- [x] Positionals → property `args` of `type: array, items: string`.
+- [x] `additionalProperties: false`.
+- [x] `test/schema.test.ts`: 3 fixture shapes → valid JSON Schemas (validate with `ajv` in test only — add ajv to devDeps).
+- [x] Commit: `feat(schema): inputSchema synthesis`
 
 ---
 
