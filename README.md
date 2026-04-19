@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/cli2mcp?color=crimson&label=npm)](https://www.npmjs.com/package/cli2mcp)
 [![npm downloads](https://img.shields.io/npm/dm/cli2mcp?color=blue&label=downloads)](https://www.npmjs.com/package/cli2mcp)
-[![CI](https://img.shields.io/github/actions/workflow/status/RonieNeubauer/mcp-wrap/ci.yml?branch=main&label=CI)](https://github.com/RonieNeubauer/mcp-wrap/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/RonieNeubauer/cli2mcp/ci.yml?branch=main&label=CI)](https://github.com/RonieNeubauer/cli2mcp/actions)
 [![node](https://img.shields.io/node/v/cli2mcp?color=green)](https://nodejs.org)
 [![license](https://img.shields.io/npm/l/cli2mcp?color=gray)](LICENSE)
 
@@ -92,7 +92,7 @@ These CLIs are covered by the test suite or have been manually exercised end-to-
 | `curl` | ✅ fixture | shape extraction validated against bundled fixture |
 | `node` | ✅ integration test | end-to-end MCP handshake + `tools/call` |
 
-Other POSIX-style CLIs (e.g. `ffmpeg`, `yt-dlp`, `pandoc`, `sqlite3`, `imagemagick`) are *expected* to work but are not yet covered by tests. Report bugs in [issues](https://github.com/RonieNeubauer/mcp-wrap/issues).
+Other POSIX-style CLIs (e.g. `ffmpeg`, `yt-dlp`, `pandoc`, `sqlite3`, `imagemagick`) are *expected* to work but are not yet covered by tests. Report bugs in [issues](https://github.com/RonieNeubauer/cli2mcp/issues).
 
 ---
 

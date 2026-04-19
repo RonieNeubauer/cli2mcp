@@ -13,12 +13,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RonieNeubauer/mcp-wrap.git"
+    "url": "git+https://github.com/RonieNeubauer/cli2mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/RonieNeubauer/mcp-wrap/issues"
+    "url": "https://github.com/RonieNeubauer/cli2mcp/issues"
   },
-  "homepage": "https://github.com/RonieNeubauer/mcp-wrap#readme",
+  "homepage": "https://github.com/RonieNeubauer/cli2mcp#readme",
   "description": "Wrap any CLI binary as an MCP server in one line",
   "type": "module",
   "bin": {

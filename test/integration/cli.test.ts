@@ -11,7 +11,7 @@ const distEntry = path.resolve(projectRoot, "dist/index.js");
 
 const BUILD_TIMEOUT = 60_000;
 
-describe("mcp-wrap end-to-end (spawned as child process)", () => {
+describe("cli2mcp end-to-end (spawned as child process)", () => {
   let client: Client;
   let transport: StdioClientTransport;
 
@@ -33,7 +33,7 @@ describe("mcp-wrap end-to-end (spawned as child process)", () => {
 
   test("initialize handshake completes and server info is populated", () => {
     const serverInfo = client.getServerVersion();
-    expect(serverInfo?.name).toBe("mcp-wrap");
+    expect(serverInfo?.name).toBe("cli2mcp");
   });
 
   test("tools/list returns the wrapped CLI as a single tool", async () => {

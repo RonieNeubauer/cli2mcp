@@ -23,6 +23,6 @@ async function main(): Promise<void> {
 
 main().catch((err: unknown) => {
   const message = err instanceof Error ? err.message : String(err);
-  process.stderr.write(`mcp-wrap: ${message}\n`);
+  process.stderr.write(`cli2mcp: ${message}\n`);
   process.exit(1);
 });
