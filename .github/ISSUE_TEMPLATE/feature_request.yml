@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest a new capability for cli2mcp.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Note: cli2mcp keeps a deliberately small surface area (≤5 runtime dependencies,
+        single-package, stdio-only). Features that require breaking those constraints
+        are unlikely to land — propose an extension point instead.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the use case, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This does not require adding a new runtime dependency.
+        - label: This does not require a new transport (HTTP/SSE/WebSocket).
+        - label: This does not require breaking changes to existing options.

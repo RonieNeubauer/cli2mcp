@@ -1,15 +1,28 @@
 {
   "name": "cli2mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [
     "mcp",
+    "mcp-server",
     "model-context-protocol",
     "cli",
+    "cli-wrapper",
     "wrapper",
     "agent",
+    "ai-tools",
+    "ai-agents",
     "llm",
+    "anthropic",
     "claude",
-    "stdio"
+    "claude-desktop",
+    "cursor",
+    "cline",
+    "windsurf",
+    "stdio",
+    "subprocess",
+    "json-schema",
+    "tool-calling",
+    "developer-tools"
   ],
   "repository": {
     "type": "git",
@@ -19,7 +32,7 @@
     "url": "https://github.com/RonieNeubauer/cli2mcp/issues"
   },
   "homepage": "https://github.com/RonieNeubauer/cli2mcp#readme",
-  "description": "Wrap any CLI binary as an MCP server in one line",
+  "description": "Wrap any CLI as a Model Context Protocol (MCP) server for Claude, Cursor, Cline & Windsurf — schema auto-inferred from --help.",
   "type": "module",
   "bin": {
     "cli2mcp": "./dist/index.js"

@@ -83,6 +83,62 @@ Refer to each client's documentation for the exact config path on your platform 
 
 ---
 
+## Quick wins — copy-paste configs
+
+Drop any of these into your client's `mcpServers` block (paths shown above per client). Each one wraps a popular CLI as an MCP tool an AI can call directly.
+
+```json
+{
+  "mcpServers": {
+    "ripgrep": {
+      "command": "npx",
+      "args": ["-y", "cli2mcp", "rg", "--name", "ripgrep",
+               "--description", "Recursively search files with regex"]
+    },
+    "jq": {
+      "command": "npx",
+      "args": ["-y", "cli2mcp", "jq",
+               "--description", "Query and transform JSON via stdin"]
+    },
+    "pandoc": {
+      "command": "npx",
+      "args": ["-y", "cli2mcp", "pandoc",
+               "--description", "Convert documents between markup formats"]
+    },
+    "sqlite3": {
+      "command": "npx",
+      "args": ["-y", "cli2mcp", "sqlite3",
+               "--description", "Run SQL against a SQLite database file",
+               "--cwd", "/path/to/safe/dir"]
+    },
+    "yt-dlp": {
+      "command": "npx",
+      "args": ["-y", "cli2mcp", "yt-dlp",
+               "--description", "Download media from URLs",
+               "--cwd", "/path/to/downloads",
+               "--timeout", "300000"]
+    }
+  }
+}
+```
+
+> Each CLI must already be installed and on `PATH`. `cli2mcp` does not install them for you.
+
+---
+
+## How it compares
+
+| Approach | LOC per CLI | New flag handling | Maintenance |
+|---|---|---|---|
+| Hand-written MCP server (TypeScript SDK) | ~80–150 | manual schema edit | per-CLI release cycle |
+| OpenAPI → MCP generators | n/a | requires an OpenAPI spec | does not cover arbitrary CLIs |
+| Wrapping `bash` / `sh` as a tool | ~10 | n/a — gives the AI a shell | unsafe, no schema, no sandbox |
+| **`cli2mcp <command>`** | **0** | **automatic at next start** | **none — re-reads `--help`** |
+
+The closest neighbor is FastMCP's `from_openapi` — it does not cover arbitrary CLI binaries. As of April 2026 there is no other published tool that turns an arbitrary `--help` output into a typed MCP tool in one command.
+
+---
+
 ## Verified targets
 
 These CLIs are covered by the test suite or have been manually exercised end-to-end:
@@ -204,6 +260,24 @@ pnpm test         # vitest
 pnpm typecheck    # tsc --noEmit
 pnpm lint         # biome check
 ```
+
+---
+
+## Star history
+
+[![Star History Chart](https://api.star-history.com/svg?repos=RonieNeubauer/cli2mcp&type=Date)](https://star-history.com/#RonieNeubauer/cli2mcp&Date)
+
+If `cli2mcp` saved you an afternoon of writing MCP boilerplate, a star helps other people find it.
+
+---
+
+## Author
+
+Built by **Ronie Neubauer** — Principal Engineer, 22+ years shipping production systems.
+
+- GitHub: [@RonieNeubauer](https://github.com/RonieNeubauer)
+- Blog: [ronieneubauer.com](https://ronieneubauer.com)
+- Issues & ideas: [github.com/RonieNeubauer/cli2mcp/discussions](https://github.com/RonieNeubauer/cli2mcp/discussions)
 
 ---
 

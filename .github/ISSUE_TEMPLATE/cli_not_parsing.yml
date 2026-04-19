@@ -1,0 +1,53 @@
+name: CLI not parsing correctly
+description: cli2mcp produced an empty or wrong schema for a real CLI.
+labels: ["parser", "fixture-needed"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        These are the highest-leverage reports we get. The captured `--help` output below
+        usually becomes a regression fixture in `test/fixtures/help/`.
+  - type: input
+    id: cli-name
+    attributes:
+      label: CLI binary name
+      placeholder: "ffmpeg / yt-dlp / pandoc / ..."
+    validations:
+      required: true
+  - type: input
+    id: cli-version
+    attributes:
+      label: CLI version
+      description: Output of `<cli> --version`.
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "macOS 15.2 / Ubuntu 24.04 / Windows 11 23H2"
+    validations:
+      required: true
+  - type: textarea
+    id: help-output
+    attributes:
+      label: Full output of `<cli> --help`
+      description: Paste the COMPLETE output. Do not trim.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: observed-schema
+    attributes:
+      label: Schema cli2mcp produced
+      description: |
+        Run `npx @modelcontextprotocol/inspector npx cli2mcp <cli>`,
+        copy the `tools/list` response.
+      render: json
+  - type: textarea
+    id: expected
+    attributes:
+      label: What the schema should have looked like
+      description: Which flags or positionals were missing or wrong?
+    validations:
+      required: true
