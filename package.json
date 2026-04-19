@@ -1,5 +1,5 @@
 {
-  "name": "@ronieneubauer/mcp-wrap",
+  "name": "mcpwrapper",
   "version": "0.1.0",
   "keywords": [
     "mcp",
@@ -22,7 +22,7 @@
   "description": "Wrap any CLI binary as an MCP server in one line",
   "type": "module",
   "bin": {
-    "mcp-wrap": "./dist/index.js"
+    "mcpwrapper": "./dist/index.js"
   },
   "main": "./dist/index.js",
   "files": [

@@ -1,9 +1,9 @@
-# mcp-wrap
+# mcpwrapper
 
 > Wrap any CLI binary as an MCP server in one line.
 
 ```sh
-npx @ronieneubauer/mcp-wrap jq
+npx mcpwrapper jq
 ```
 
 Your `jq` is now an MCP tool any client (Claude Desktop, Cursor, Cline, Gemini CLI) can call. The input schema is auto-inferred from `jq --help` — no hand-written tool definitions, no SDK boilerplate.
@@ -13,9 +13,9 @@ Your `jq` is now an MCP tool any client (Claude Desktop, Cursor, Cline, Gemini C
 ## Install
 
 ```sh
-npm install -g @ronieneubauer/mcp-wrap
+npm install -g mcpwrapper
 # or run without installing
-npx @ronieneubauer/mcp-wrap <command>
+npx mcpwrapper <command>
 ```
 
 Requires Node.js 22+.
@@ -30,7 +30,7 @@ Requires Node.js 22+.
       "mcpServers": {
         "jq": {
           "command": "npx",
-          "args": ["-y", "@ronieneubauer/mcp-wrap", "jq"]
+          "args": ["-y", "mcpwrapper", "jq"]
         }
       }
     }
@@ -49,22 +49,22 @@ The tool's `inputSchema` is synthesized from `jq --help` — flags like `--raw-o
 
 ```sh
 # Ripgrep as an MCP search tool
-mcp-wrap rg
+mcpwrapper rg
 
 # yt-dlp with a custom name and a longer timeout
-mcp-wrap yt-dlp --name video-downloader --timeout 120000
+mcpwrapper yt-dlp --name video-downloader --timeout 120000
 
 # ffmpeg with a hand-written tool description
-mcp-wrap ffmpeg --description "Run ffmpeg operations on media files"
+mcpwrapper ffmpeg --description "Run ffmpeg operations on media files"
 
 # Inject env vars into the child
-mcp-wrap curl --env HTTP_PROXY=http://localhost:8080
+mcpwrapper curl --env HTTP_PROXY=http://localhost:8080
 ```
 
 ## Options
 
 ```
-mcp-wrap <command> [options]
+mcpwrapper <command> [options]
 
   --name <s>          tool name exposed via MCP (default: <command>)
   --description <s>   tool description (default: first line of --help)
