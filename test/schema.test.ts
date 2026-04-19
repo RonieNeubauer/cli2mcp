@@ -83,6 +83,16 @@ describe("toInputSchema — shape 1 (boolean, string, number flags)", () => {
   test("no args property when no positionals", () => {
     expect(schema.properties?.args).toBeUndefined();
   });
+
+  test("stdin property is always present as optional string", () => {
+    expect(schema.properties?.stdin).toEqual({
+      type: "string",
+      description: "Text piped to the child process via standard input.",
+    });
+    const validate = ajv.compile(schema);
+    expect(validate({ stdin: "hello" })).toBe(true);
+    expect(validate({})).toBe(true);
+  });
 });
 
 describe("toInputSchema — shape 2 (choice, repeatable, positionals)", () => {

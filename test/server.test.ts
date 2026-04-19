@@ -55,6 +55,13 @@ async function connect(shape: CliShape, opts: Options = baseOptions, script: str
   return { server, client };
 }
 
+// A tiny "cat" — reads stdin and writes it back to stdout.
+const CAT_SCRIPT = `
+const chunks = [];
+process.stdin.on("data", (c) => chunks.push(c));
+process.stdin.on("end", () => { process.stdout.write(Buffer.concat(chunks).toString()); });
+`;
+
 // A script that waits indefinitely — used to test killActiveChildren.
 const SLEEP_SCRIPT = `
 process.stdout.write("started");
@@ -150,6 +157,37 @@ describe("createMcpServer", () => {
 
     const result = await callPromise;
     expect(result.isError).toBe(true);
+  });
+
+  test("input.stdin is piped into the child process", async () => {
+    const shape: CliShape = {
+      description: "",
+      flags: [],
+      positionals: [],
+    };
+    const { server, client } = await connect(shape, baseOptions, CAT_SCRIPT);
+    cleanup.push(
+      () => client.close(),
+      () => server.close(),
+    );
+
+    const result = await client.callTool({
+      name: "echo",
+      arguments: { stdin: '{"hello":"world"}' },
+    });
+    expect(result.isError).not.toBe(true);
+    expect(result.content).toEqual([{ type: "text", text: '{"hello":"world"}' }]);
+  });
+
+  test("tools/list advertises stdin as an optional property", async () => {
+    const { server, client } = await connect(nodeEcho);
+    cleanup.push(
+      () => client.close(),
+      () => server.close(),
+    );
+
+    const result = await client.listTools();
+    expect(result.tools[0]?.inputSchema.properties).toHaveProperty("stdin");
   });
 
   test("stderr=drop suppresses stderr content on non-zero exit", async () => {

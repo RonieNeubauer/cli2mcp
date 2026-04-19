@@ -24,6 +24,11 @@ export function toInputSchema(shape: CliShape): JsonSchema {
     properties.args = { type: "array", items: { type: "string" } };
   }
 
+  properties.stdin = {
+    type: "string",
+    description: "Text piped to the child process via standard input.",
+  };
+
   return { type: "object", properties, additionalProperties: false };
 }
 
