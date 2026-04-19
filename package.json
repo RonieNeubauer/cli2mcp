@@ -1,12 +1,18 @@
 {
-  "name": "mcpify",
+  "name": "mcp-wrap",
   "version": "0.0.0",
   "description": "Wrap any CLI binary as an MCP server in one line",
   "type": "module",
-  "bin": { "mcpify": "./dist/index.js" },
+  "bin": {
+    "mcp-wrap": "./dist/index.js"
+  },
   "main": "./dist/index.js",
-  "files": ["dist"],
-  "engines": { "node": ">=22" },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
   "license": "MIT",
   "author": "Ronie Neubauer",
   "scripts": {
@@ -24,7 +30,9 @@
     "execa": "^9.5.1"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.0",

@@ -21,7 +21,7 @@ export function parseArgs(argv: string[]): Options {
 
   program
     .exitOverride()
-    .name("mcpify")
+    .name("mcp-wrap")
     .argument("<command>", "CLI binary to wrap (must be on $PATH)")
     .option("--name <s>", "tool name exposed via MCP")
     .option("--description <s>", "tool description")

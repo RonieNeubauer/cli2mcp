@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install *)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(kill %1)",
+      "Bash(npx biome *)",
+      "Bash(mkdir -p /d/Projetos/mcpify/src)",
+      "Bash(echo 'console.log\\(\"mcpify v0.0.0\"\\);')",
+      "Bash(pnpm build *)",
+      "Bash(node *)",
+      "Bash(pnpm test *)",
+      "Bash(pnpm typecheck *)",
+      "Bash(pnpm lint *)",
+      "Bash(pnpm format *)",
+      "Bash(npm view *)"
+    ]
+  }
+}

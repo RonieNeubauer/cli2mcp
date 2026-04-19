@@ -1,1 +1,1 @@
-console.log("mcpify v0.0.0");
+console.log("mcp-wrap v0.0.0");
