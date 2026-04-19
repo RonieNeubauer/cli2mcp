@@ -1,3 +1,4 @@
+import { createRequire } from "node:module";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
@@ -8,6 +9,11 @@ import { type CliShape, extractShape } from "./parser/shape.js";
 import { captureHelp } from "./parser/spawn.js";
 import { toInputSchema } from "./schema.js";
 
+const pkg = createRequire(import.meta.url)("../package.json") as {
+  name: string;
+  version: string;
+};
+
 export interface CreateServerParams {
   cmd: string;
   shape: CliShape;
@@ -16,8 +22,8 @@ export interface CreateServerParams {
   preArgs?: string[];
 }
 
-const PKG_NAME = "mcp-wrap";
-const PKG_VERSION = "0.0.0";
+const PKG_NAME = pkg.name;
+const PKG_VERSION = pkg.version;
 
 const activeChildren = new Set<ResultPromise>();
 
@@ -60,7 +66,8 @@ export async function createMcpServer(params: CreateServerParams): Promise<Serve
 
     const input = (request.params.arguments ?? {}) as ToolInput;
     const argv = [...preArgs, ...buildArgv(shape, input)];
-    const result = await runChild(cmd, argv, options, envOverrides);
+    const stdin = typeof input.stdin === "string" ? input.stdin : undefined;
+    const result = await runChild(cmd, argv, options, envOverrides, stdin);
 
     if (result.exitCode !== 0) {
       return {
@@ -100,6 +107,7 @@ async function runChild(
   argv: string[],
   options: Options,
   envOverrides: Record<string, string>,
+  stdin?: string,
 ): Promise<ChildResult> {
   const child: ResultPromise = execa(cmd, argv, {
     timeout: options.timeout,
@@ -107,6 +115,7 @@ async function runChild(
     env: { ...process.env, ...envOverrides },
     reject: false,
     stripFinalNewline: false,
+    input: stdin,
   });
 
   activeChildren.add(child);
