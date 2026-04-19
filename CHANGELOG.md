@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-04-19
+
+### Changed
+- **Honest client coverage.** The previous tagline named only Claude, Cursor, Cline, and Windsurf; that was SEO-driven framing and misrepresented the project. `cli2mcp` speaks the MCP stdio transport, so it works with any compliant client. README hero paragraph and `package.json` description now say "any MCP-compatible client" and explicitly mention ChatGPT (via OpenAI Agents SDK) and Gemini.
+- README "Other clients" table adds rows for ChatGPT, Continue, and Zed.
+- npm `keywords` add `chatgpt`, `openai`, `gemini`, `continue`, `zed`.
+
+> Note: 0.1.2 was tagged on GitHub but never reached npm. 0.1.3 is the first npm-published release in the 0.1.x line that includes the community-files batch and the broadened client framing.
+
 ## [0.1.2] - 2026-04-19
 
 ### Added
@@ -39,7 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test suite with fixtures for `jq`, `ripgrep`, `curl`, and an end-to-end integration test wrapping `node`.
 - GitHub Actions CI matrix: Linux / macOS / Windows × Node 22 and 24.
 
-[Unreleased]: https://github.com/RonieNeubauer/cli2mcp/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/RonieNeubauer/cli2mcp/compare/v0.1.3...HEAD
+[0.1.3]: https://github.com/RonieNeubauer/cli2mcp/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/RonieNeubauer/cli2mcp/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/RonieNeubauer/cli2mcp/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/RonieNeubauer/cli2mcp/releases/tag/v0.1.0
