@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "rg": {
+      "command": "node",
+      "args": ["./dist/index.js", "rg", "--name", "ripgrep"]
+    },
+    "jq": {
+      "command": "node",
+      "args": ["./dist/index.js", "jq"]
+    }
+  }
+}
