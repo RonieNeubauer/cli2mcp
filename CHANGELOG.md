@@ -19,7 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README: comparison table vs hand-written MCP servers, expanded "Quick wins" with five ready-to-paste configs, Star History badge, author/contact section.
 
 ### Changed
-- `package.json` description and keywords expanded for npm search discoverability.
+- `package.json` description and keywords expanded for npm search discoverability — now mentions ChatGPT, Gemini, and "any MCP-compatible client" instead of artificially limiting to four named hosts.
+- README clarifies up-front that any stdio-capable MCP client works (Continue, Zed, ChatGPT via OpenAI Agents SDK added to the client table).
 
 ## [0.1.1] - 2026-04-18
 

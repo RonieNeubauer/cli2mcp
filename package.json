@@ -15,9 +15,14 @@
     "anthropic",
     "claude",
     "claude-desktop",
+    "chatgpt",
+    "openai",
+    "gemini",
     "cursor",
     "cline",
     "windsurf",
+    "continue",
+    "zed",
     "stdio",
     "subprocess",
     "json-schema",
@@ -32,7 +37,7 @@
     "url": "https://github.com/RonieNeubauer/cli2mcp/issues"
   },
   "homepage": "https://github.com/RonieNeubauer/cli2mcp#readme",
-  "description": "Wrap any CLI as a Model Context Protocol (MCP) server for Claude, Cursor, Cline & Windsurf — schema auto-inferred from --help.",
+  "description": "Wrap any CLI as a Model Context Protocol (MCP) server for Claude, ChatGPT, Cursor, Gemini and any MCP-compatible client — schema auto-inferred from --help.",
   "type": "module",
   "bin": {
     "cli2mcp": "./dist/index.js"

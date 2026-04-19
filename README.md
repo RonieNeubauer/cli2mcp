@@ -10,6 +10,8 @@
 
 Expose any command-line binary as a [Model Context Protocol](https://modelcontextprotocol.io) tool by parsing its `--help` output and synthesizing a JSON Schema at startup. One command, no boilerplate.
 
+Works with **any MCP-compatible client** — Claude Desktop, ChatGPT (via OpenAI Agents SDK), Cursor, Gemini CLI, Cline, Windsurf, Continue, Zed, and anything else that speaks the [MCP stdio transport](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports#stdio).
+
 ```sh
 npx cli2mcp <command>
 ```
@@ -73,10 +75,13 @@ Restart Claude Desktop after editing.
 
 | Client | Config file | Format |
 |---|---|---|
+| ChatGPT (OpenAI Agents SDK) | `MCPServerStdio` parameter — see [OpenAI Agents docs](https://openai.github.io/openai-agents-python/mcp/) | `command: "npx"`, `args: ["-y", "cli2mcp", "<cli>"]` |
 | Cursor | `.cursor/mcp.json` (project) or `~/.cursor/mcp.json` (global) | Same `mcpServers` block as above |
 | Cline | VS Code → Cline → MCP Settings → `cline_mcp_settings.json` | Same `mcpServers` block |
 | Windsurf | `~/.codeium/windsurf/mcp_config.json` | Same `mcpServers` block |
 | Gemini CLI | `~/.gemini/settings.json` | Same `mcpServers` block |
+| Continue | `~/.continue/config.json` → `experimental.modelContextProtocolServers` | Same launcher |
+| Zed | `~/.config/zed/settings.json` → `context_servers` | Same launcher |
 | Any stdio-capable MCP client | per the client's docs | Same launcher: `npx -y cli2mcp <command>` |
 
 Refer to each client's documentation for the exact config path on your platform — they evolve and are not guaranteed to match the table above.
