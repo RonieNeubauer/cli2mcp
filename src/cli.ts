@@ -11,9 +11,54 @@ export interface Options {
 }
 
 const STDERR_MODES = ["include", "drop", "error"] as const;
+const COMMAND_ENV_KEYS = ["CLI_COMMAND", "CLI2MCP_COMMAND"] as const;
 
 function collect(value: string, previous: string[]): string[] {
   return [...previous, value];
+}
+
+function readCommandFromEnv(env: NodeJS.ProcessEnv): string | undefined {
+  for (const key of COMMAND_ENV_KEYS) {
+    const value = env[key]?.trim();
+    if (value) return value;
+  }
+  return undefined;
+}
+
+/**
+ * Resolve the wrapped command from:
+ * 1) positional argument,
+ * 2) supported environment variables,
+ * 3) non-interactive fallback ("node") for managed runtimes.
+ */
+export function resolveCommand(
+  commandArg: string | undefined,
+  env: NodeJS.ProcessEnv = process.env,
+  isStdinTty = Boolean(process.stdin.isTTY),
+): string {
+  const fromArg = commandArg?.trim();
+  if (fromArg) return fromArg;
+
+  const fromEnv = readCommandFromEnv(env);
+  if (fromEnv) return fromEnv;
+
+  if (!isStdinTty) return "node";
+
+  throw new Error(
+    "missing required argument 'command'. Pass <command> or set CLI_COMMAND in the environment.",
+  );
+}
+
+function defaultDescriptionFor(
+  command: string,
+  inferredFromPositionalArg: boolean,
+): string | undefined {
+  if (inferredFromPositionalArg) return undefined;
+  return (
+    `Execute ${command} as an MCP tool. Use this for command-line operations that map ` +
+    `cleanly to flags and positional args. Output is returned as plain text and non-zero exits ` +
+    `are surfaced as tool errors.`
+  );
 }
 
 export function parseArgs(argv: string[]): Options {
@@ -22,7 +67,7 @@ export function parseArgs(argv: string[]): Options {
   program
     .exitOverride()
     .name("cli2mcp")
-    .argument("<command>", "CLI binary to wrap (must be on $PATH)")
+    .argument("[command]", "CLI binary to wrap (must be on $PATH)")
     .option("--name <s>", "tool name exposed via MCP")
     .option("--description <s>", "tool description")
     .option(
@@ -51,13 +96,15 @@ export function parseArgs(argv: string[]): Options {
 
   program.parse(argv);
 
-  const cmd = program.args[0] as string;
+  const positionalCommand = typeof program.args[0] === "string" ? program.args[0] : undefined;
+  const cmd = resolveCommand(positionalCommand);
   const opts = program.opts<Omit<Options, "command">>();
+  const inferredFromPositionalArg = Boolean(positionalCommand?.trim());
 
   return {
     command: cmd,
     name: opts.name ?? cmd,
-    description: opts.description,
+    description: opts.description ?? defaultDescriptionFor(cmd, inferredFromPositionalArg),
     timeout: opts.timeout,
     cwd: opts.cwd,
     env: opts.env,
