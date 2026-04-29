@@ -77,28 +77,40 @@ describe("parseArgs", () => {
 
 describe("resolveCommand", () => {
   test("prefers positional command over env fallback", () => {
-    const cmd = resolveCommand("jq", { CLI_COMMAND: "rg" }, false);
+    const cmd = resolveCommand(
+      "jq",
+      { CLI_COMMAND: "rg" },
+      { stdin: false, stdout: false, stderr: false },
+    );
     expect(cmd).toBe("jq");
   });
 
   test("uses CLI_COMMAND when positional command is missing", () => {
-    const cmd = resolveCommand(undefined, { CLI_COMMAND: "rg" }, true);
+    const cmd = resolveCommand(
+      undefined,
+      { CLI_COMMAND: "rg" },
+      { stdin: true, stdout: true, stderr: true },
+    );
     expect(cmd).toBe("rg");
   });
 
   test("uses CLI2MCP_COMMAND when CLI_COMMAND is missing", () => {
-    const cmd = resolveCommand(undefined, { CLI2MCP_COMMAND: "curl" }, true);
+    const cmd = resolveCommand(
+      undefined,
+      { CLI2MCP_COMMAND: "curl" },
+      { stdin: true, stdout: true, stderr: true },
+    );
     expect(cmd).toBe("curl");
   });
 
-  test("falls back to node when stdin is non-interactive", () => {
-    const cmd = resolveCommand(undefined, {}, false);
+  test("falls back to node when stdio is non-interactive", () => {
+    const cmd = resolveCommand(undefined, {}, { stdin: true, stdout: false, stderr: false });
     expect(cmd).toBe("node");
   });
 
   test("throws when command is missing in interactive mode", () => {
-    expect(() => resolveCommand(undefined, {}, true)).toThrow(
-      "missing required argument 'command'",
-    );
+    expect(() =>
+      resolveCommand(undefined, {}, { stdin: true, stdout: true, stderr: true }),
+    ).toThrow("missing required argument 'command'");
   });
 });
