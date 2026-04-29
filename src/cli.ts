@@ -13,6 +13,12 @@ export interface Options {
 const STDERR_MODES = ["include", "drop", "error"] as const;
 const COMMAND_ENV_KEYS = ["CLI_COMMAND", "CLI2MCP_COMMAND"] as const;
 
+interface TtyState {
+  stdin: boolean;
+  stdout: boolean;
+  stderr: boolean;
+}
+
 function collect(value: string, previous: string[]): string[] {
   return [...previous, value];
 }
@@ -34,7 +40,11 @@ function readCommandFromEnv(env: NodeJS.ProcessEnv): string | undefined {
 export function resolveCommand(
   commandArg: string | undefined,
   env: NodeJS.ProcessEnv = process.env,
-  isStdinTty = Boolean(process.stdin.isTTY),
+  ttyState: TtyState = {
+    stdin: Boolean(process.stdin.isTTY),
+    stdout: Boolean(process.stdout.isTTY),
+    stderr: Boolean(process.stderr.isTTY),
+  },
 ): string {
   const fromArg = commandArg?.trim();
   if (fromArg) return fromArg;
@@ -42,7 +52,8 @@ export function resolveCommand(
   const fromEnv = readCommandFromEnv(env);
   if (fromEnv) return fromEnv;
 
-  if (!isStdinTty) return "node";
+  const isInteractiveSession = ttyState.stdin && ttyState.stdout && ttyState.stderr;
+  if (!isInteractiveSession) return "node";
 
   throw new Error(
     "missing required argument 'command'. Pass <command> or set CLI_COMMAND in the environment.",
